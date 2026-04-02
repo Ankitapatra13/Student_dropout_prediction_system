@@ -1,33 +1,122 @@
-import sys
-import os
 import streamlit as st
 import pandas as pd
 import joblib
+import os
+import sys
 
+# Fix import path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
 from src.features import create_features
 
-model = joblib.load("models/model.pkl")
-le = joblib.load("models/label_encoder.pkl")
+# -----------------------------
+# Load model
+# -----------------------------
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
-st.title("🎓 Student Dropout Risk Prediction")
+model = joblib.load(os.path.join(BASE_DIR, "models", "model.pkl"))
+le = joblib.load(os.path.join(BASE_DIR, "models", "label_encoder.pkl"))
 
-# Example inputs (you can expand)
-gender = st.selectbox("Gender", ["Male", "Female"])
-stress = st.slider("Stress Level", 0, 10)
-anxiety = st.slider("Anxiety Score", 0, 10)
-mental = st.slider("Mental Health Index", 0, 10)
+# -----------------------------
+# UI Title
+# -----------------------------
+st.set_page_config(page_title="Student Dropout Predictor", layout="wide")
 
-input_data = pd.DataFrame([{
-    "gender": gender,
-    "stress_level": stress,
-    "anxiety_score": anxiety,
-    "mental_health_index": mental,
-}])
+st.title("🎓 Student Dropout Prediction System")
+st.markdown("Predict student dropout risk based on mental health and lifestyle factors.")
 
-if st.button("Predict"):
+# -----------------------------
+# Input Sections
+# -----------------------------
+st.header("🧠 Mental Health")
+
+col1, col2 = st.columns(2)
+
+with col1:
+    stress_level = st.slider("Stress Level", 0, 10, 5)
+    anxiety_score = st.slider("Anxiety Score", 0, 10, 5)
+    depression_score = st.slider("Depression Score", 0, 10, 5)
+
+with col2:
+    burnout_score = st.slider("Burnout Score", 0, 10, 5)
+    mental_health_index = st.slider("Mental Health Index", 0, 100, 50)
+
+# -----------------------------
+st.header("📚 Academic Factors")
+
+col1, col2 = st.columns(2)
+
+with col1:
+    study_hours = st.slider("Study Hours per Day", 0, 12, 4)
+    academic_performance = st.slider("Academic Performance", 0, 100, 60)
+
+with col2:
+    exam_pressure = st.slider("Exam Pressure", 0, 10, 5)
+
+# -----------------------------
+st.header("💰 Lifestyle & Social")
+
+col1, col2 = st.columns(2)
+
+with col1:
+    sleep_hours = st.slider("Sleep Hours", 0, 12, 7)
+    physical_activity = st.slider("Physical Activity", 0, 10, 5)
+    financial_stress = st.slider("Financial Stress", 0, 10, 5)
+
+with col2:
+    family_expectation = st.slider("Family Expectation", 0, 10, 5)
+    social_support = st.slider("Social Support", 0, 10, 5)
+
+# -----------------------------
+st.header("👤 Demographics")
+
+col1, col2 = st.columns(2)
+
+with col1:
+    gender = st.selectbox("Gender", ["Male", "Female"])
+
+with col2:
+    risk_level = st.selectbox("Initial Risk Level", ["Low", "Medium", "High"])
+
+# -----------------------------
+# Prediction Button
+# -----------------------------
+if st.button("🔮 Predict Dropout Risk"):
+
+    # Create input dataframe
+    input_data = pd.DataFrame({
+        "stress_level": [stress_level],
+        "burnout_score": [burnout_score],
+        "depression_score": [depression_score],
+        "anxiety_score": [anxiety_score],
+        "mental_health_index": [mental_health_index],
+        "sleep_hours": [sleep_hours],
+        "physical_activity": [physical_activity],
+        "study_hours_per_day": [study_hours],
+        "academic_performance": [academic_performance],
+        "exam_pressure": [exam_pressure],
+        "financial_stress": [financial_stress],
+        "family_expectation": [family_expectation],
+        "social_support": [social_support],
+        "gender": [gender],
+        "risk_level": [risk_level]
+    })
+
+    # Feature engineering
     input_data = create_features(input_data)
-    pred = model.predict(input_data)
-    result = le.inverse_transform(pred)
 
-    st.success(f"Predicted Risk: {result[0]}")
+    # Prediction
+    pred = model.predict(input_data)
+    pred_label = le.inverse_transform(pred)[0]
+
+    # -----------------------------
+    # Output
+    # -----------------------------
+    st.subheader("📊 Prediction Result")
+
+    if pred_label == "High":
+        st.error(f"⚠️ High Dropout Risk")
+    elif pred_label == "Medium":
+        st.warning(f"⚠️ Medium Dropout Risk")
+    else:
+        st.success(f"✅ Low Dropout Risk")
