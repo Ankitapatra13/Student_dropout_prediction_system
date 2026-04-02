@@ -1,7 +1,10 @@
+import sys
+import os
 import streamlit as st
 import pandas as pd
 import joblib
 
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from src.features import create_features
 
 model = joblib.load("models/model.pkl")
