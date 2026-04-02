@@ -52,4 +52,40 @@ A subset was used to:
 
 ---
 
+
 ## 📁 Project Structure
+
+```
+Student_dropout_prediction_system/
+│
+├── app/                          # 🚀 Streamlit web application
+│   └── app.py
+│
+├── data/                         # 📊 Dataset (sample used for training)
+│   └── student_mental_health_dataset.csv
+|
+├── models/                       # 🤖 Saved trained models
+|   │──model.pkl
+|   │──label_encoder.pkl
+|    
+│   
+|   
+
+|
+├── notebooks/                    # 📓 Jupyter notebooks (EDA & analysis)
+│   └── 01_eda.ipynb
+│
+├── src/                          # 🧠 Core ML pipeline code
+│   |── features.py               # Feature creation logic
+|   |── preprocess.py             # Data cleaning & encoding
+│   ├── train.py                  # Model training pipeline
+│
+│
+├── .gitignore                    # 🚫 Ignored files
+├── README.md                     # 📄 Project documentation
+├── requirements.txt              # ⚙️ Project dependencies
+|
+```
+
+> ⚠️ **Note:** The original dataset contains ~20 million records.  
+> For computational efficiency, a sampled subset of 10,000 records was used for model development.
