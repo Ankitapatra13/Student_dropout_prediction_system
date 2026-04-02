@@ -83,3 +83,5 @@ def train_model(data_path: str):
     print("Model saved successfully!")
 
     return pipe
+if __name__ == "__main__":
+    train_model("data/student_mental_health_dataset.csv")
