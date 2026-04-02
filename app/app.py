@@ -4,29 +4,30 @@ import joblib
 import os
 import sys
 
+# -----------------------------
 # Fix import path
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+# -----------------------------
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+sys.path.append(BASE_DIR)
 
 from src.features import create_features
 
 # -----------------------------
 # Load model
 # -----------------------------
-BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-
 model = joblib.load(os.path.join(BASE_DIR, "models", "model.pkl"))
 le = joblib.load(os.path.join(BASE_DIR, "models", "label_encoder.pkl"))
 
 # -----------------------------
-# UI Title
+# UI CONFIG
 # -----------------------------
 st.set_page_config(page_title="Student Dropout Predictor", layout="wide")
 
 st.title("🎓 Student Dropout Prediction System")
-st.markdown("Predict student dropout risk based on mental health and lifestyle factors.")
+st.markdown("Predict student dropout risk using ML")
 
 # -----------------------------
-# Input Sections
+# INPUT UI
 # -----------------------------
 st.header("🧠 Mental Health")
 
@@ -42,7 +43,7 @@ with col2:
     mental_health_index = st.slider("Mental Health Index", 0, 100, 50)
 
 # -----------------------------
-st.header("📚 Academic Factors")
+st.header("📚 Academic")
 
 col1, col2 = st.columns(2)
 
@@ -68,22 +69,34 @@ with col2:
     social_support = st.slider("Social Support", 0, 10, 5)
 
 # -----------------------------
-st.header("👤 Demographics")
+st.header("👤 Basic Info")
 
 col1, col2 = st.columns(2)
 
 with col1:
     gender = st.selectbox("Gender", ["Male", "Female"])
+    age = st.slider("Age", 15, 30, 20)
 
 with col2:
     risk_level = st.selectbox("Initial Risk Level", ["Low", "Medium", "High"])
+    academic_year = st.selectbox("Academic Year", [1, 2, 3, 4])
 
 # -----------------------------
-# Prediction Button
+st.header("📱 Digital Usage")
+
+col1, col2 = st.columns(2)
+
+with col1:
+    screen_time = st.slider("Screen Time (hrs/day)", 0, 12, 5)
+
+with col2:
+    internet_usage = st.slider("Internet Usage (hrs/day)", 0, 12, 5)
+
+# -----------------------------
+# PREDICTION
 # -----------------------------
 if st.button("🔮 Predict Dropout Risk"):
 
-    # Create input dataframe
     input_data = pd.DataFrame({
         "stress_level": [stress_level],
         "burnout_score": [burnout_score],
@@ -99,24 +112,37 @@ if st.button("🔮 Predict Dropout Risk"):
         "family_expectation": [family_expectation],
         "social_support": [social_support],
         "gender": [gender],
-        "risk_level": [risk_level]
+        "risk_level": [risk_level],
+        "age": [age],
+        "academic_year": [academic_year],
+        "screen_time": [screen_time],
+        "internet_usage": [internet_usage]
     })
 
     # Feature engineering
     input_data = create_features(input_data)
+
+    # Auto fixes : ensure model compatibility
+    expected_cols = model.feature_names_in_
+
+    for col in expected_cols:
+        if col not in input_data.columns:
+            input_data[col] = 0
+
+    input_data = input_data[expected_cols]
 
     # Prediction
     pred = model.predict(input_data)
     pred_label = le.inverse_transform(pred)[0]
 
     # -----------------------------
-    # Output
+    # OUTPUT
     # -----------------------------
-    st.subheader("📊 Prediction Result")
+    st.subheader("📊 Result")
 
     if pred_label == "High":
-        st.error(f"⚠️ High Dropout Risk")
+        st.error("⚠️ High Dropout Risk")
     elif pred_label == "Medium":
-        st.warning(f"⚠️ Medium Dropout Risk")
+        st.warning("⚠️ Medium Dropout Risk")
     else:
-        st.success(f"✅ Low Dropout Risk")
+        st.success("✅ Low Dropout Risk")
