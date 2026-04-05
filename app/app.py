@@ -5,12 +5,10 @@ import os
 import sys
 
 # -----------------------------
-# Fix import path
+# Import path
 # -----------------------------
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.append(BASE_DIR)
-
-from src.features import create_features
 
 # -----------------------------
 # Load model
@@ -24,7 +22,7 @@ le = joblib.load(os.path.join(BASE_DIR, "models", "label_encoder.pkl"))
 st.set_page_config(page_title="Student Dropout Predictor", layout="wide")
 
 st.title("🎓 Student Dropout Prediction System")
-st.markdown("Predict student dropout risk using ML")
+st.markdown("🔮 Predict student dropout risk using ML")
 
 # -----------------------------
 # INPUT UI
@@ -118,18 +116,6 @@ if st.button("🔮 Predict Dropout Risk"):
         "screen_time": [screen_time],
         "internet_usage": [internet_usage]
     })
-
-    # Feature engineering
-    input_data = create_features(input_data)
-
-    # Auto fixes : ensure model compatibility
-    expected_cols = model.feature_names_in_
-
-    for col in expected_cols:
-        if col not in input_data.columns:
-            input_data[col] = 0
-
-    input_data = input_data[expected_cols]
 
     # Prediction
     pred = model.predict(input_data)
