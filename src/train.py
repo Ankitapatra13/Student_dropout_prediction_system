@@ -2,14 +2,25 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 from sklearn.pipeline import Pipeline
-from sklearn.metrics import accuracy_score, classification_report
+from sklearn.metrics import accuracy_score,precision_score,recall_score,f1_score, classification_report,confusion_matrix
 from xgboost import XGBClassifier
 from sklearn.utils.class_weight import compute_sample_weight
 import joblib
+import os
 
 from src.features import create_features
 from src.preprocess import get_preprocessor
 
+ # Features 
+selected_features = [
+    "stress_level", "burnout_score", "depression_score",
+    "anxiety_score", "mental_health_index", "sleep_hours",
+    "physical_activity", "study_hours_per_day",
+    "academic_performance", "exam_pressure",
+    "financial_stress", "family_expectation",
+    "social_support", "gender", "risk_level",
+    "age", "academic_year", "screen_time", "internet_usage"
+]
 
 def train_model(data_path: str):
 
@@ -26,11 +37,7 @@ def train_model(data_path: str):
 
     data = data.drop("dropout_risk", axis=1)
 
-    # Feature engineering
-    data = create_features(data)
-
-    # Split
-    X = data.drop("dropout_labels", axis=1)
+    X = data[selected_features]
     y = data["dropout_labels"]
 
     le = LabelEncoder()
@@ -74,8 +81,14 @@ def train_model(data_path: str):
     y_pred = pipe.predict(X_test)
 
     print("Accuracy:", accuracy_score(y_test, y_pred))
+    print("Precision:",precision_score(y_test,y_pred,average="weighted"))
+    print("Recall:",recall_score(y_test,y_pred,average="weighted"))
+    print("F1:",f1_score(y_test,y_pred,average="weighted"))
+    print("\nConfusion Matrix:\n",confusion_matrix(y_test,y_pred))
     print("\nClassification Report:\n", classification_report(y_test, y_pred))
-
+    
+    os.makedirs("models",exist_ok=True)
+    
     # Save model
     joblib.dump(pipe, "models/model.pkl")
     joblib.dump(le, "models/label_encoder.pkl")
