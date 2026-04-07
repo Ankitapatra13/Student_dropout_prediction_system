@@ -21,8 +21,8 @@ le = joblib.load(os.path.join(BASE_DIR, "models", "label_encoder.pkl"))
 # -----------------------------
 st.set_page_config(page_title="Student Dropout Predictor", layout="wide")
 
-st.title("🎓 Student Dropout Prediction System")
-st.markdown("🔮 Predict student dropout risk using ML")
+st.title("🎓 Student Dropout Prediction System",text_alignment="center")
+st.subheader("🔮 Predict student dropout risk using ML",text_alignment="center")
 
 # -----------------------------
 # INPUT UI
