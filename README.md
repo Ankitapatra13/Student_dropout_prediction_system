@@ -67,25 +67,29 @@ Student_dropout_prediction_system/
 ├── models/                       # 🤖 Saved trained models
 |   │──model.pkl
 |   │──label_encoder.pkl
-|    
-│   
-|   
-
+|   │──features.pkl 
+|   │──final_dataset.csv
 |
 ├── notebooks/                    # 📓 Jupyter notebooks (EDA & analysis)
 │   └── 01_eda.ipynb
 │
 ├── src/                          # 🧠 Core ML pipeline code
+|   │── __init__.py
 │   |── features.py               # Feature creation logic
 |   |── preprocess.py             # Data cleaning & encoding
 │   ├── train.py                  # Model training pipeline
 │
 │
-├── .gitignore                    # 🚫 Ignored files
-├── README.md                     # 📄 Project documentation
-├── requirements.txt              # ⚙️ Project dependencies
+├── .gitignore                    # Ignored files
+├── README.md                     # Project documentation
+├── requirements.txt              # Project dependencies
 |
 ```
 
 > ⚠️ **Note:** The original dataset contains ~20 million records.  
 > For computational efficiency, a sampled subset of 10,000 records was used for model development.
+
+---
+
+## 📷 Application Screenshot
+
