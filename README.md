@@ -93,3 +93,30 @@ Student_dropout_prediction_system/
 
 ## 📷 Application Screenshot
 
+## 🏠 Home page
+<p align="center">
+<img src="Student_dropout_prediction_system\images\dropout_ui.png">
+<p>
+
+<p align="center">
+<img src="Student_dropout_prediction_system\images\dropout_ui2.png">
+<p>
+
+<p align="center">
+<img src="Student_dropout_prediction_system\images\dropout_ui3.png">
+<p>
+
+## 🔮 Prediction
+<p align="center">
+<img src="Student_dropout_prediction_system\images\dropout_result.png">
+<p>
+
+## 📈 Insights
+<p align="center">
+<img src="Student_dropout_prediction_system\images\dropout_insights.png">
+<p>
+
+## ✅ Recommendations
+<p align="center">
+<img src="Student_dropout_prediction_system\images\dropout_recommendations.png">
+<p>
