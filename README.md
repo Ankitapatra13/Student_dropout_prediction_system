@@ -95,28 +95,28 @@ Student_dropout_prediction_system/
 
 ## 🏠 Home page
 <p align="center">
-<img src="images\dropout_ui.png">
-<p>
+<img src="images\dropout_ui.png" width="600">
+</p>
 
 <p align="center">
-<img src="images\dropout_ui2.png">
-<p>
+<img src="images\dropout_ui2.png" width="600">
+</p>
 
 <p align="center">
-<img src="images\dropout_ui3.png">
-<p>
+<img src="images\dropout_ui3.png" width="600">
+</p>
 
 ## 🔮 Prediction
 <p align="center">
-<img src="images\dropout_result.png">
-<p>
+<img src="images\dropout_result.png" width="600">
+</p>
 
 ## 📈 Insights
 <p align="center">
-<img src="images\dropout_insights.png">
-<p>
+<img src="images\dropout_insights.png" width="600">
+</p>
 
 ## ✅ Recommendations
 <p align="center">
-<img src="images\dropout_recommendations.png">
-<p>
+<img src="images\dropout_recommendations.png" width="600">
+</p>
