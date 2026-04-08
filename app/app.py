@@ -9,7 +9,7 @@ import sys
 # -----------------------------
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.append(BASE_DIR)
-
+DATA_PATH = os.path.join(BASE_DIR,"models","final_dataset.csv") 
 # -----------------------------
 # Load model
 # -----------------------------
@@ -27,7 +27,7 @@ st.subheader("🔮 Predict student dropout risk using ML",text_alignment="center
 # -----------------------------
 # INPUT UI
 # -----------------------------
-st.header("🧠 Mental Health")
+st.header("🧠 Mental Health",text_alignment="center")
 
 col1, col2 = st.columns(2)
 
@@ -41,7 +41,7 @@ with col2:
     mental_health_index = st.slider("Mental Health Index", 0, 100, 50)
 
 # -----------------------------
-st.header("📚 Academic")
+st.header("📚 Academic",text_alignment="center")
 
 col1, col2 = st.columns(2)
 
@@ -53,7 +53,7 @@ with col2:
     exam_pressure = st.slider("Exam Pressure", 0, 10, 5)
 
 # -----------------------------
-st.header("💰 Lifestyle & Social")
+st.header("💰 Lifestyle & Social",text_alignment="center")
 
 col1, col2 = st.columns(2)
 
@@ -67,7 +67,7 @@ with col2:
     social_support = st.slider("Social Support", 0, 10, 5)
 
 # -----------------------------
-st.header("👤 Basic Info")
+st.header("👤 Basic Info",text_alignment="center")
 
 col1, col2 = st.columns(2)
 
@@ -80,7 +80,7 @@ with col2:
     academic_year = st.selectbox("Academic Year", [1, 2, 3, 4])
 
 # -----------------------------
-st.header("📱 Digital Usage")
+st.header("📱 Digital Usage",text_alignment="center")
 
 col1, col2 = st.columns(2)
 
@@ -118,17 +118,127 @@ if st.button("🔮 Predict Dropout Risk"):
     })
 
     # Prediction
+    features = joblib.load(os.path.join(BASE_DIR,"models","features.pkl"))
+    input_data = input_data[features]
     pred = model.predict(input_data)
     pred_label = le.inverse_transform(pred)[0]
-
+    pred_proba = model.predict_proba(input_data)
     # -----------------------------
     # OUTPUT
     # -----------------------------
-    st.subheader("📊 Result")
+    st.subheader("🔮 Prediction",text_alignment="center")
+    col1,col2 = st.columns(2)
+    with col1:
 
-    if pred_label == "High":
-        st.error("⚠️ High Dropout Risk")
-    elif pred_label == "Medium":
-        st.warning("⚠️ Medium Dropout Risk")
-    else:
-        st.success("✅ Low Dropout Risk")
+        if pred_label == "High":
+            st.error("⚠️ High Dropout Risk")
+        elif pred_label == "Medium":
+            st.warning("⚠️ Medium Dropout Risk")
+        else:
+            st.success("✅ Low Dropout Risk")
+        confidence = pred_proba.max()
+        st.write(f"🎯 Confidence Score : **{confidence:.2f}** ")
+    
+    with col2:
+        st.subheader("📊 Risk Distribution")
+        proba_df = pd.DataFrame(pred_proba,columns=le.classes_)
+        st.bar_chart(proba_df.T)
+    
+    st.write("----")
+    # -----------------------------
+    # INSIGHTS
+    # -----------------------------
+    df = pd.read_csv(DATA_PATH)
+    st.subheader("🧠 Key Insights",text_alignment="center")
+    insights = []
+    if stress_level > df["stress_level"].mean() :
+        insights.append("High stress level is increasing dropout risk")
+    if anxiety_score > df["anxiety_score"].mean() :
+        insights.append("High anxiety impacts performance")
+    if depression_score > df["depression_score"].mean():
+        insights.append("High depression impacts performance")
+    if burnout_score > df["burnout_score"].mean():
+        insights.append("High burnout increases dropout risk")
+    if study_hours < df["study_hours_per_day"].mean():
+        insights.append("Low study hours impacts lack of interest in course")
+    if sleep_hours < df["sleep_hours"].mean():
+        insights.append("Low sleep reduces mental stability")
+    if academic_performance < df["academic_performance"].mean():
+        insights.append("Low academic performance is a major risk factor")
+    if social_support < df["social_support"].mean():
+        insights.append("Low social support increases risk")
+    if exam_pressure > df["exam_pressure"].mean():
+        insights.append("High exam pressure impacts performance")
+    if physical_activity < df["physical_activity"].mean():
+        insights.append("Low physical activity leads to poor mental health")
+    if financial_stress > df["financial_stress"].mean():
+        insights.append("High financial stress increases dropout risk")
+    if family_expectation > df["family_expectation"].mean():
+        insights.append("High family expectation increases stress")
+    if mental_health_index < df["mental_health_index"].mean():
+        insights.append("Low mental health increases the dropout risk")
+    if risk_level == "High":
+        insights.append("Student is at higher risk of dropping out") 
+    if screen_time > df["screen_time"].mean():
+        insights.append("Higher screen time increases dropout risk")
+    if internet_usage > df["internet_usage"].mean():
+        insights.append("Higher internet usage increases dropout risk")
+
+    if not insights :
+        insights.append("No major risk factors detected !")
+    
+    for i in insights :
+        st.markdown(f"** • {i} **")
+    
+    st.write("---")
+
+    #----------------------------------
+    # RECOMMENDATIONS
+    #----------------------------------
+    st.subheader("💡 Recommendations",text_alignment="center")
+    recommendations = []
+
+    if stress_level > df["stress_level"].mean() :
+        recommendations.append("🧘 Practice stress management (meditation, breaks)")
+    if anxiety_score > df["anxiety_score"].mean() :
+        recommendations.append("Consider mental health support or counseling")
+    if depression_score > df["depression_score"].mean():
+        recommendations.append("Consider sharing thoughts with trusted mentor to avoid depression")
+    if burnout_score > df["burnout_score"].mean():
+        recommendations.append("Take regular break to avoid burnout")
+    if study_hours < df["study_hours_per_day"].mean():
+        recommendations.append("🧑‍🎓 Join the course of your interest")
+    if sleep_hours < df["sleep_hours"].mean():
+        recommendations.append("🛌 Maintain 7-8 hours of healthy sleep per day")
+    if academic_performance < df["academic_performance"].mean():
+        recommendations.append("📚 Build interest in the course by putting sincere effort for the subject")
+    if social_support < df["social_support"].mean():
+        recommendations.append("👥 Grow a healthy social circle to nourish knowledge")
+    if exam_pressure > df["exam_pressure"].mean():
+        recommendations.append("Practice mock tests to defeat exam fear")
+    if physical_activity < df["physical_activity"].mean():
+        recommendations.append("🏋️ Consider joining gym, brisk walk or dancing to stay fit")
+    if financial_stress > df["financial_stress"].mean():
+        recommendations.append("🧩 Start internships, provide tutions, work on a startup idea")
+    if family_expectation > df["family_expectation"].mean():
+        recommendations.append("Manage expectations through structured planning and communication")
+    if mental_health_index < df["mental_health_index"].mean():
+        recommendations.append("Seek help through mental health counseling")
+    if risk_level == "High":
+        recommendations.append("⚠️ student at higher risk of dropping out") 
+    if screen_time > df["screen_time"].mean():
+        recommendations.append("📖 Stop scrolling and spend time in urgent, important activities")
+    if internet_usage > df["internet_usage"].mean():
+        recommendations.append("🛜 Use internet judicially for personal development or gaining knowledge")
+
+    if not recommendations :
+        recommendations.append("Maintain current healthy routine")
+    
+    for r in recommendations :
+        st.markdown(f"✅ {r}")
+    
+   
+
+
+
+
