@@ -23,7 +23,7 @@ st.set_page_config(page_title="Student Dropout Predictor", layout="wide")
 
 st.title("🎓 Student Dropout Prediction System",text_alignment="center")
 st.subheader("🔮 Predict student dropout risk using ML",text_alignment="center")
-
+st.divider()
 # -----------------------------
 # INPUT UI
 # -----------------------------
@@ -39,7 +39,7 @@ with col1:
 with col2:
     burnout_score = st.slider("Burnout Score", 0, 10, 5)
     mental_health_index = st.slider("Mental Health Index", 0, 100, 50)
-
+st.divider()
 # -----------------------------
 st.header("📚 Academic",text_alignment="center")
 
@@ -51,7 +51,7 @@ with col1:
 
 with col2:
     exam_pressure = st.slider("Exam Pressure", 0, 10, 5)
-
+st.divider()
 # -----------------------------
 st.header("💰 Lifestyle & Social",text_alignment="center")
 
@@ -65,7 +65,7 @@ with col1:
 with col2:
     family_expectation = st.slider("Family Expectation", 0, 10, 5)
     social_support = st.slider("Social Support", 0, 10, 5)
-
+st.divider()
 # -----------------------------
 st.header("👤 Basic Info",text_alignment="center")
 
@@ -78,7 +78,7 @@ with col1:
 with col2:
     risk_level = st.selectbox("Initial Risk Level", ["Low", "Medium", "High"])
     academic_year = st.selectbox("Academic Year", [1, 2, 3, 4])
-
+st.divider()
 # -----------------------------
 st.header("📱 Digital Usage",text_alignment="center")
 
@@ -89,7 +89,7 @@ with col1:
 
 with col2:
     internet_usage = st.slider("Internet Usage (hrs/day)", 0, 12, 5)
-
+st.divider()
 # -----------------------------
 # PREDICTION
 # -----------------------------
@@ -144,7 +144,7 @@ if st.button("🔮 Predict Dropout Risk"):
         proba_df = pd.DataFrame(pred_proba,columns=le.classes_)
         st.bar_chart(proba_df.T)
     
-    st.write("----")
+    st.divider()
     # -----------------------------
     # INSIGHTS
     # -----------------------------
@@ -190,8 +190,7 @@ if st.button("🔮 Predict Dropout Risk"):
     for i in insights :
         st.markdown(f"** • {i} **")
     
-    st.write("---")
-
+    st.divider()
     #----------------------------------
     # RECOMMENDATIONS
     #----------------------------------
