@@ -159,36 +159,31 @@ if st.button("🔮 Predict Dropout Risk"):
         insights.append("High depression impacts performance")
     if burnout_score > df["burnout_score"].mean():
         insights.append("High burnout increases dropout risk")
-    if study_hours < df["study_hours_per_day"].mean():
+    if study_hours < 4:
         insights.append("Low study hours impacts lack of interest in course")
-    if sleep_hours < df["sleep_hours"].mean():
+    if sleep_hours < 6:
         insights.append("Low sleep reduces mental stability")
     if academic_performance < df["academic_performance"].mean():
         insights.append("Low academic performance is a major risk factor")
-    if social_support < df["social_support"].mean():
+    if social_support < 3:
         insights.append("Low social support increases risk")
     if exam_pressure > df["exam_pressure"].mean():
         insights.append("High exam pressure impacts performance")
-    if physical_activity < df["physical_activity"].mean():
+    if physical_activity < 3:
         insights.append("Low physical activity leads to poor mental health")
-    if financial_stress > df["financial_stress"].mean():
+    if financial_stress > 7:
         insights.append("High financial stress increases dropout risk")
-    if family_expectation > df["family_expectation"].mean():
+    if family_expectation > 7:
         insights.append("High family expectation increases stress")
-    if mental_health_index < df["mental_health_index"].mean():
+    if mental_health_index < 30:
         insights.append("Low mental health increases the dropout risk")
-    if risk_level == "High":
-        insights.append("Student is at higher risk of dropping out") 
-    if screen_time > df["screen_time"].mean():
-        insights.append("Higher screen time increases dropout risk")
-    if internet_usage > df["internet_usage"].mean():
-        insights.append("Higher internet usage increases dropout risk")
+    
 
     if not insights :
         insights.append("No major risk factors detected !")
     
     for i in insights :
-        st.markdown(f"** • {i} **")
+        st.markdown(f"• {i}")
     
     st.divider()
     #----------------------------------
@@ -198,46 +193,35 @@ if st.button("🔮 Predict Dropout Risk"):
     recommendations = []
 
     if stress_level > df["stress_level"].mean() :
-        recommendations.append("🧘 Practice stress management (meditation, breaks)")
+        recommendations.append("🧘 Practice stress management through meditation and yoga")
     if anxiety_score > df["anxiety_score"].mean() :
-        recommendations.append("Consider mental health support or counseling")
+        recommendations.append("Consider mental health support or counseling for calming anxiety")
     if depression_score > df["depression_score"].mean():
-        recommendations.append("Consider sharing thoughts with trusted mentor to avoid depression")
+        recommendations.append("Sharing suppressed emotions can releif depression")
     if burnout_score > df["burnout_score"].mean():
-        recommendations.append("Take regular break to avoid burnout")
-    if study_hours < df["study_hours_per_day"].mean():
-        recommendations.append("🧑‍🎓 Join the course of your interest")
-    if sleep_hours < df["sleep_hours"].mean():
+        recommendations.append("Take regular breaks to avoid burnout")
+    if study_hours < 4:
+        recommendations.append("🧑‍🎓 Join the course of your interest, to spend time in studies")
+    if sleep_hours < 6:
         recommendations.append("🛌 Maintain 7-8 hours of healthy sleep per day")
     if academic_performance < df["academic_performance"].mean():
         recommendations.append("📚 Build interest in the course by putting sincere effort for the subject")
-    if social_support < df["social_support"].mean():
+    if social_support < 3:
         recommendations.append("👥 Grow a healthy social circle to nourish knowledge")
     if exam_pressure > df["exam_pressure"].mean():
         recommendations.append("Practice mock tests to defeat exam fear")
-    if physical_activity < df["physical_activity"].mean():
-        recommendations.append("🏋️ Consider joining gym, brisk walk or dancing to stay fit")
-    if financial_stress > df["financial_stress"].mean():
-        recommendations.append("🧩 Start internships, provide tutions, work on a startup idea")
-    if family_expectation > df["family_expectation"].mean():
+    if physical_activity < 3:
+        recommendations.append("🏋️ Consider joining gym, or start any physical activity to stay fit")
+    if financial_stress > 7:
+        recommendations.append("🧩 Start internships, provide tutions, work on a startup idea to start early income")
+    if family_expectation > 7:
         recommendations.append("Manage expectations through structured planning and communication")
-    if mental_health_index < df["mental_health_index"].mean():
-        recommendations.append("Seek help through mental health counseling")
-    if risk_level == "High":
-        recommendations.append("⚠️ student at higher risk of dropping out") 
-    if screen_time > df["screen_time"].mean():
-        recommendations.append("📖 Stop scrolling and spend time in urgent, important activities")
-    if internet_usage > df["internet_usage"].mean():
-        recommendations.append("🛜 Use internet judicially for personal development or gaining knowledge")
-
+    if mental_health_index < 30:
+        recommendations.append("🎨 Spending leisure in mindfull, joyous activities can cheer up mental health")
     if not recommendations :
-        recommendations.append("Maintain current healthy routine")
+        recommendations.append("✅ Maintain current healthy routine")
     
     for r in recommendations :
         st.markdown(f"✅ {r}")
-    
-   
-
-
 
 
