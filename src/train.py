@@ -10,7 +10,7 @@ import os
 
 from src.features import create_features
 from src.preprocess import get_preprocessor
-
+os.makedirs("models",exist_ok=True)
  # Features 
 selected_features = [
     "stress_level", "burnout_score", "depression_score",
@@ -21,7 +21,7 @@ selected_features = [
     "social_support", "gender", "risk_level",
     "age", "academic_year", "screen_time", "internet_usage"
 ]
-
+joblib.dump(selected_features,"models/features.pkl")
 def train_model(data_path: str):
 
     # Load data
@@ -39,7 +39,8 @@ def train_model(data_path: str):
 
     X = data[selected_features]
     y = data["dropout_labels"]
-
+    ### final working dataset -> X
+    X.to_csv("models/final_dataset.csv",index=False)
     le = LabelEncoder()
     y_encoded = le.fit_transform(y)
 
@@ -86,8 +87,6 @@ def train_model(data_path: str):
     print("F1:",f1_score(y_test,y_pred,average="weighted"))
     print("\nConfusion Matrix:\n",confusion_matrix(y_test,y_pred))
     print("\nClassification Report:\n", classification_report(y_test, y_pred))
-    
-    os.makedirs("models",exist_ok=True)
     
     # Save model
     joblib.dump(pipe, "models/model.pkl")
