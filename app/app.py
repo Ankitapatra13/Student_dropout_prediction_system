@@ -160,13 +160,13 @@ if st.button("🔮 Predict Dropout Risk"):
     if burnout_score > df["burnout_score"].mean():
         insights.append("High burnout increases dropout risk")
     if study_hours < 4:
-        insights.append("Low study hours impacts lack of interest in course")
+        insights.append("Low study hours indicates lack of interest in course")
     if sleep_hours < 6:
         insights.append("Low sleep reduces mental stability")
     if academic_performance < df["academic_performance"].mean():
         insights.append("Low academic performance is a major risk factor")
     if social_support < 3:
-        insights.append("Low social support increases risk")
+        insights.append("Low social support increases dropout risk")
     if exam_pressure > df["exam_pressure"].mean():
         insights.append("High exam pressure impacts performance")
     if physical_activity < 3:
@@ -176,7 +176,7 @@ if st.button("🔮 Predict Dropout Risk"):
     if family_expectation > 7:
         insights.append("High family expectation increases stress")
     if mental_health_index < 30:
-        insights.append("Low mental health increases the dropout risk")
+        insights.append("Low mental health increases dropout risk")
     
 
     if not insights :
@@ -197,11 +197,11 @@ if st.button("🔮 Predict Dropout Risk"):
     if anxiety_score > df["anxiety_score"].mean() :
         recommendations.append("Consider mental health support or counseling for calming anxiety")
     if depression_score > df["depression_score"].mean():
-        recommendations.append("Sharing suppressed emotions can releif depression")
+        recommendations.append("Sharing suppressed emotions with a trusted person can releif depression")
     if burnout_score > df["burnout_score"].mean():
         recommendations.append("Take regular breaks to avoid burnout")
     if study_hours < 4:
-        recommendations.append("🧑‍🎓 Join the course of your interest, to spend time in studies")
+        recommendations.append("🧑‍🎓 Join the course of your interest, so you spend sincere time in studies")
     if sleep_hours < 6:
         recommendations.append("🛌 Maintain 7-8 hours of healthy sleep per day")
     if academic_performance < df["academic_performance"].mean():
@@ -209,11 +209,11 @@ if st.button("🔮 Predict Dropout Risk"):
     if social_support < 3:
         recommendations.append("👥 Grow a healthy social circle to nourish knowledge")
     if exam_pressure > df["exam_pressure"].mean():
-        recommendations.append("Practice mock tests to defeat exam fear")
+        recommendations.append("📝 Practice mock tests to defeat exam fear")
     if physical_activity < 3:
         recommendations.append("🏋️ Consider joining gym, or start any physical activity to stay fit")
     if financial_stress > 7:
-        recommendations.append("🧩 Start internships, provide tutions, work on a startup idea to start early income")
+        recommendations.append("🧩 Start internships, provide tutions, work on a startup idea to overcome financial stress")
     if family_expectation > 7:
         recommendations.append("Manage expectations through structured planning and communication")
     if mental_health_index < 30:
